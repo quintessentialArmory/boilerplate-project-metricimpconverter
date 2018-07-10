@@ -32,16 +32,16 @@ function ConvertHandler () {
     };
 
     this.getUnit = function (input) {
-        const unitRegex = /(gal|L|lbs|kg|mi|km)$/;
+        const unitRegex = /(gal|L|lbs|kg|mi|km)$/i;
         const data = unitRegex.exec(input);
         if (!data) return null;
-        return data[1];
+        return data[1].toLowerCase();
     };
 
     this.getReturnUnit = function (initUnit) {
         switch (initUnit) {
-            case 'gal': return 'L';
-            case 'L': return 'gal';
+            case 'gal': return 'l';
+            case 'l': return 'gal';
 
             case 'lbs': return 'kg';
             case 'kg': return 'lbs';
@@ -54,7 +54,7 @@ function ConvertHandler () {
     this.spellOutUnit = function (unit) {
         switch (unit) {
             case 'gal': return 'gallons';
-            case 'L': return 'liters';
+            case 'l': return 'liters';
 
             case 'lbs': return 'pounds';
             case 'kg': return 'kilograms';
@@ -65,31 +65,31 @@ function ConvertHandler () {
     };
 
     this.convert = function (initNum, initUnit) {
-        const gal2L = 3.78541;
-        const lbs2Kg = 0.453592;
-        const mi2Km = 1.60934;
+        const gal2L = 3.785411784;
+        const lbs2kg = 0.45359237;
+        const mi2km = 1.609344;
         let output;
 
         switch (initUnit) {
           case 'gal':
             output = initNum * gal2L;
             break;
-          case 'L':
+          case 'l':
             output = initNum / gal2L;
             break;
 
           case 'lbs':
-            output = initNum * lbs2Kg;
+            output = initNum * lbs2kg;
             break;
           case 'kg':
-            output = initNum / lbs2Kg;
+            output = initNum / lbs2kg;
             break;
 
           case 'mi':
-            output = initNum * mi2Km;
+            output = initNum * mi2km;
             break;
           case 'km':
-            output = initNum / mi2Km;
+            output = initNum / mi2km;
             break;
         }
         return round(output);
