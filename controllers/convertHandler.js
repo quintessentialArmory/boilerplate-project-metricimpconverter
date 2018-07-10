@@ -1,93 +1,88 @@
-/*
-*
-*
-*       Complete the handler logic below
-*       
-*       
-*/
+function ConvertHandler () {
 
-function ConvertHandler() {
-  
-  this.getNum = function(input) {
+    this.getNum = function (input) {
+        let output;
 
-    const numRegex = /^(?:(\d+(?:\.\d+)?)(?:\/(\d)+))?\w+$/;
-    var inputData = numRegex.exec(input);
-    if (!inputData) return null;
-    var [, num, den] = inputData;
+        const regex = /^(?:(\d*(?:\.\d+)?)(?:\/(\d+)))?\w+$/;
+        const inputData = regex.exec(input);
+        if (!inputData) return null;
+        const [, num, den] = inputData;
 
-    if (num) {
+        if (num) {
+            if (den) {
+                const x = parseInt(den);
+                if (x == 0) return null;
+                output = parseFloat(num) / x;
+            } else {
+                output = parseFloat(num);
+            }
+        } else {
+            if (den) {
+                output = null;
+            } else {
+                output = 1;
+            }
+        }
+        return output
+    };
 
-      if (den) return parseFloat(num)/parseInt(den);
-      return parseFloat(num);
-    }
+    this.getUnit = function (input) {
+        const unitRegex = /(gal|L|lbs|kg|mi|km)$/;
+        const data = unitRegex.exec(input);
+        if (!data) return null;
+        return data[1];
+    };
 
-    else return null
-  };
-  
-  this.getUnit = function(input) {
+    this.getReturnUnit = function (initUnit) {
+        switch (initUnit) {
+            case 'gal': return 'L';
+            case 'L': return 'gal';
 
-    const unitRegex = /(gal|L|lbs|kg|mi|km)$/;
-    var data = unitRegex.exec(input);
-    if (!data) return null;
-    return data[1];
-  };
-  
-  this.getReturnUnit = function(initUnit) {
+            case 'lbs': return 'kg';
+            case 'kg': return 'lbs';
 
-    switch (initUnit) {
+            case 'mi': return 'km';
+            case 'km': return 'mi';
+        }
+    };
 
-      case 'gal': return 'L';
-      case 'L': return 'gal';
+    this.spellOutUnit = function (unit) {
+        switch (initUnit) {
+            case 'gal': return 'gallons';
+            case 'L': return 'liters';
 
-      case 'lbs': return 'kg';
-      case 'kg': return 'lbs';
+            case 'lbs': return 'pounds';
+            case 'kg': return 'kilograms';
 
-      case 'mi': return 'km';
-      case 'km': return 'mi';
-    }
-  };
+            case 'mi': return 'miles';
+            case 'km': return 'kilometers';
+        }
+    };
 
-  this.spellOutUnit = function(unit) {
+    this.convert = function (initNum, initUnit) {
+        const gal2L = 3.78541;
+        const lbs2Kg = 0.453592;
+        const mi2Km = 1.60934;
 
-    switch (initUnit) {
+        switch (initUnit) {
+            case 'gal': return initNum * gal2L;
+            case 'L': return initNum / gal2L;
 
-      case 'gal': return 'gallons';
-      case 'L': return 'liters';
+            case 'lbs': return initNum * lbs2Kg;
+            case 'kg': return initNum / lbs2Kg;
 
-      case 'lbs': return 'pounds';
-      case 'kg': return 'kilograms';
+            case 'mi': return initNum * mi2Km;
+            case 'km': return initNum / mi2Km;
+        }
+    };
 
-      case 'mi': return 'miles';
-      case 'km': return 'kilometers';
-    }
-  };
-  
-  this.convert = function(initNum, initUnit) {
-
-    const gal2L = 3.78541;
-    const lbs2Kg = 0.453592;
-    const mi2Km = 1.60934;
-
-    switch (initUnit) {
-
-      case 'gal': return initNum*gal2L;
-      case 'L': return initNum/gal2L;
-
-      case 'lbs': return initNum*lbs2Kg;
-      case 'kg': return initNum/lbs2Kg;
-
-      case 'mi': return initNum*mi2Km;
-      case 'km': return initNum/mi2Km;
-    }
-  };
-  
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-
-    initUnit = this.spellOutUnit(initUnit);
-    returnUnit = this.spellOutUnit(returnUnit);
-    return `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`;
-  };
-  
+    this.getString = function (initNum, initUnit, returnNum, returnUnit) {
+        const output =
+            `${initNum} ${this.spellOutUnit(initUnit)}` +
+            ' converts to ' +
+            `${returnNum} ${this.spellOutUnit(returnUnit)}`;
+        return output
+    };
 }
 
 module.exports = ConvertHandler;
