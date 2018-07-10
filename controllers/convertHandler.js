@@ -1,9 +1,11 @@
+"use strict";
+
 function ConvertHandler () {
 
     this.getNum = function (input) {
         let output;
 
-        const regex = /^(?:(\d*(?:\.\d+)?)(?:\/(\d+)))?\w+$/;
+        const regex = /^(?:(\d+(?:\.\d+)?)(?:\/(\d+))?)?\w+$/;
         const inputData = regex.exec(input);
         if (!inputData) return null;
         const [, num, den] = inputData;
@@ -47,7 +49,7 @@ function ConvertHandler () {
     };
 
     this.spellOutUnit = function (unit) {
-        switch (initUnit) {
+        switch (unit) {
             case 'gal': return 'gallons';
             case 'L': return 'liters';
 
