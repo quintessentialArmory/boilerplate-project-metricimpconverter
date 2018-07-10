@@ -100,7 +100,7 @@ suite('Unit Tests', function(){
         'kilograms',
       ];
       input.forEach(function(ele, i) {
-        assert.equal(convertHandler.getReturnUnit(ele), expect[i]);
+        assert.equal(convertHandler.spellOutUnit(ele), expect[i]);
       });
       done();
     });
