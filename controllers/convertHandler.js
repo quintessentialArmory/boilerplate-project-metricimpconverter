@@ -18,6 +18,7 @@ function ConvertHandler () {
             } else {
                 output = parseFloat(num);
             }
+            output = Math.round(Math.round(num * 10 ** 6) / 10) * 10 ** 5;
         } else {
             if (den) {
                 output = null;
