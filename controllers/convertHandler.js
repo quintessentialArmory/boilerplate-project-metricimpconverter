@@ -1,5 +1,7 @@
 "use strict";
 
+const round = x => Math.round(Math.round(x * 10 ** 6) / 10) / 10 ** 5;
+
 function ConvertHandler () {
 
     this.getNum = function (input) {
@@ -18,7 +20,7 @@ function ConvertHandler () {
             } else {
                 output = parseFloat(num);
             }
-            output = Math.round(Math.round(num * 10 ** 6) / 10) / 10 ** 5;
+            output = round(output);
         } else {
             if (den) {
                 output = null;
@@ -66,17 +68,31 @@ function ConvertHandler () {
         const gal2L = 3.78541;
         const lbs2Kg = 0.453592;
         const mi2Km = 1.60934;
+        let output;
 
         switch (initUnit) {
-            case 'gal': return initNum * gal2L;
-            case 'L': return initNum / gal2L;
+          case 'gal':
+            output = initNum * gal2L;
+            break;
+          case 'L':
+            output = initNum / gal2L;
+            break;
 
-            case 'lbs': return initNum * lbs2Kg;
-            case 'kg': return initNum / lbs2Kg;
+          case 'lbs':
+            output = initNum * lbs2Kg;
+            break;
+          case 'kg':
+            output = initNum / lbs2Kg;
+            break;
 
-            case 'mi': return initNum * mi2Km;
-            case 'km': return initNum / mi2Km;
+          case 'mi':
+            output = initNum * mi2Km;
+            break;
+          case 'km':
+            output = initNum / mi2Km;
+            break;
         }
+        return round(output);
     };
 
     this.getString = function (initNum, initUnit, returnNum, returnUnit) {
